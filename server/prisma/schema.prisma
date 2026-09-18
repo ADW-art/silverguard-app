@@ -1,0 +1,11 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// 业务模型将在产品和接口确认后按 OpenSpec change 增量建立。
+// 不在初始化阶段复制原项目的写死数据结构。

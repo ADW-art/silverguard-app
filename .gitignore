@@ -1,0 +1,25 @@
+# dependencies
+node_modules/
+
+# environment and secrets
+.env
+.env.*
+!.env.example
+
+# build and local data
+dist/
+coverage/
+*.sqlite
+*.sqlite-journal
+*.db
+server/prisma/dev.db
+
+# IDE / OS
+.idea/
+.vscode/
+Thumbs.db
+*.log
+
+# local design exports and temporary evidence
+design/_exports/
+evidence/_local/

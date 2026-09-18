@@ -1,0 +1,32 @@
+schema: spec-driven
+
+context: |
+  Project: SilverGuard / 银龄智护，面向独居老人的 AI 主动守护与家庭协同 App。
+  The app is a new project. E:\小程序开发\前端code\elder_care is reference material only and must not be copied or modified.
+  Stack: uni-app + Vue 3 + TypeScript; Node.js + TypeScript + Fastify; SQLite + Prisma; REST with WebSocket reserved.
+  The existing HBuilderX installation is D:\hbuilder x\HBuilderX\HBuilderX.exe. Do not install another HBuilderX.
+  Domain boundary: risk-rules alone decides risk severity; AI only explains, summarizes, and suggests; AI failure must not block alerts.
+  App calls only the self-owned Fastify API. External养老控制台 access must be isolated in integrations adapters.
+
+rules:
+  proposal:
+    - State user value, scope, non-goals, data impact, and acceptance evidence.
+    - Do not treat uncertain control-console URLs, APIs, or contest details as confirmed facts.
+    - One proposal must describe one independently reviewable change.
+  design:
+    - Design the new frontend from scratch; do not reuse elder_care page structure or styles.
+  specs:
+    - Keep risk decisions deterministic and auditable; AI cannot change severity.
+  tasks:
+    - Break work into small tasks that can be implemented and verified in one focused session.
+    - Include exact test commands and manual/device evidence for user-facing changes.
+
+operations:
+  apply:
+    guidance:
+      - Do not modify the elder_care reference project.
+      - Keep unrelated refactors out of a change.
+      - Report commands, results, screenshots or device evidence, and unverified items.
+  archive:
+    guidance:
+      - Summarize the implemented behavior and remaining integration gaps before archiving.
