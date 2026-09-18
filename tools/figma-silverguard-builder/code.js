@@ -287,7 +287,7 @@ function addGlassNav(screen, y, theme = "elder", activeIndex = null) {
   addGlassCard(screen, 12, y, 336, 64, 22, 0.82);
   const items = theme === "elder"
     ? [["home", "首页"], ["calendar", "生活"], ["bell", "消息"], ["user", "我的"]]
-    : [["home", "总览"], ["bell", "告警"], ["clock", "记录"], ["user", "我的"]];
+    : [["home", "首页"], ["bell", "告警"], ["shield", "守护"], ["user", "我的"]];
   items.forEach(([icon, label], index) => {
     const fallbackIndex = theme === "elder" ? 0 : 1;
     const active = index === (activeIndex ?? fallbackIndex);
@@ -780,126 +780,264 @@ function buildAccessibility(parent, x, y) {
   return screen.id;
 }
 
-function buildFamilyOverview(section) {
-  if (section.findOne((node) => node.name === "Family Overview · 360×800")) return null;
+function createFamilyScreen(parent, name, x, y, seed = 61) {
   const screen = figma.createFrame();
-  screen.name = "Family Overview · 360×800";
+  screen.name = name;
   screen.resize(360, 800);
-  screen.x = 64;
-  screen.y = 48;
+  screen.x = x;
+  screen.y = y;
   screen.cornerRadius = 26;
   screen.clipsContent = true;
   screen.fills = [solid(COLORS.familyBg)];
-  section.appendChild(screen);
+  parent.appendChild(screen);
   created.push(screen.id);
-
-  addEllipse(screen, 226, -68, 210, 210, COLORS.sage, 0.68, 54);
-  addEllipse(screen, -82, 304, 190, 190, COLORS.champagne, 0.14, 58);
-  addPearlTexture(screen, 41, COLORS.family);
-  addRing(screen, 252, -24, 130, 130, COLORS.white, 0.42, 1.1);
-  addRing(screen, 274, -2, 86, 86, COLORS.white, 0.26, 1);
+  addEllipse(screen, 226, -74, 218, 218, COLORS.sage, 0.62, 56);
+  addEllipse(screen, -86, 438, 184, 184, COLORS.champagne, 0.12, 58);
+  addPearlTexture(screen, seed, COLORS.family);
   addText(screen, "9:41", 20, 14, 14, COLORS.ink, "Semi Bold");
-  addText(screen, "守护总览", 20, 46, 27, COLORS.ink, "Bold");
-  addRect(screen, 246, 44, 94, 36, COLORS.white, null, 18, { color: COLORS.white, opacity: 0.72 }, 0.7);
-  addEllipse(screen, 258, 57, 9, 9, COLORS.success);
-  addText(screen, "设备在线", 276, 53, 13, COLORS.family, "Semi Bold");
+  return screen;
+}
 
-  addGlassCard(screen, 20, 100, 320, 84, 22, 0.82);
-  addEllipse(screen, 36, 114, 56, 56, COLORS.champagne, 0.84);
-  addIcon(screen, "user", 50, 128, 28, HEX.familyDeep);
-  addText(screen, "王建国", 108, 114, 21, COLORS.ink, "Bold");
-  addText(screen, "今日状态平稳", 108, 146, 15, COLORS.family, "Semi Bold");
-  addIcon(screen, "chevron", 300, 132, 20, HEX.secondary);
+function addGuardianIsland(screen, mode = "safe") {
+  if (mode === "alert") {
+    const island = addGradientRect(screen, 20, 48, 320, 108, COLORS.blush, { r: 0.97, g: 0.81, b: 0.77 }, 26, "horizontal");
+    island.name = "Component · 守护岛 / 高风险";
+    addShadow(island, { r: 0.761, g: 0.306, b: 0.251, a: 0.12 }, 8, 24);
+    island.strokes = [solid(COLORS.white, 0.52)];
+    island.strokeWeight = 1;
+    addEllipse(screen, 36, 68, 48, 48, COLORS.white, 0.78);
+    addIcon(screen, "alert", 48, 80, 24, HEX.highRisk, 2);
+    addText(screen, "老人主动求助", 100, 65, 19, COLORS.ink, "Bold");
+    addText(screen, "王叔 · 2 分钟前", 100, 96, 14, COLORS.secondary, "Regular");
+    addRect(screen, 260, 113, 62, 30, COLORS.highRisk, null, 15);
+    addText(screen, "查看", 276, 120, 14, COLORS.white, "Semi Bold");
+    return island;
+  }
+  if (mode === "claimed") {
+    const island = addGradientRect(screen, 20, 48, 320, 92, COLORS.sage, { r: 0.73, g: 0.85, b: 0.77 }, 26, "horizontal");
+    island.name = "Component · 守护岛 / 已接管";
+    addShadow(island, { r: 0.075, g: 0.231, b: 0.196, a: 0.11 }, 8, 24);
+    island.strokes = [solid(COLORS.white, 0.5)];
+    island.strokeWeight = 1;
+    addEllipse(screen, 36, 64, 48, 48, COLORS.champagne, 0.82);
+    addIcon(screen, "user", 48, 76, 24, HEX.familyDeep);
+    addText(screen, "张女士正在处理", 100, 62, 18, COLORS.ink, "Bold");
+    addText(screen, "主动求助 · 已接管 3 分钟", 100, 92, 14, COLORS.familyDeep, "Semi Bold");
+    addIcon(screen, "chevron", 306, 82, 18, HEX.familyDeep);
+    return island;
+  }
+  const island = addGlassCard(screen, 20, 48, 320, 76, 24, 0.88);
+  island.name = "Component · 守护岛 / 平安";
+  addEllipse(screen, 36, 60, 52, 52, COLORS.champagne, 0.82);
+  addIcon(screen, "user", 50, 74, 24, HEX.familyDeep);
+  addText(screen, "王建国", 104, 61, 18, COLORS.ink, "Bold");
+  addText(screen, "今日平安 · 最近活动 18:42", 104, 91, 14, COLORS.family, "Semi Bold");
+  addIcon(screen, "chevron", 306, 77, 18, HEX.secondary);
+  return island;
+}
 
-  addGlassCard(screen, 20, 204, 152, 104, 20, 0.8);
-  addIcon(screen, "activity", 36, 220, 24, HEX.elderDeep);
-  addText(screen, "3,280", 36, 252, 26, COLORS.ink, "Bold");
-  addText(screen, "今日步数", 36, 282, 14, COLORS.secondary);
-  addGlassCard(screen, 188, 204, 152, 104, 20, 0.8);
-  addIcon(screen, "clock", 204, 220, 24, HEX.family);
-  addText(screen, "7.2h", 204, 252, 26, COLORS.ink, "Bold");
-  addText(screen, "昨夜睡眠", 204, 282, 14, COLORS.secondary);
+function addFamilyQuickAction(screen, x, y, icon, label, primary = false) {
+  const card = primary
+    ? addGradientRect(screen, x, y, 152, 72, COLORS.family, COLORS.familyDeep, 20, "horizontal")
+    : addGlassCard(screen, x, y, 152, 72, 20, 0.86);
+  if (primary) addShadow(card, { r: 0.075, g: 0.231, b: 0.196, a: 0.14 }, 7, 20);
+  addIcon(screen, icon, x + 20, y + 24, 24, primary ? HEX.white : HEX.familyDeep);
+  addText(screen, label, x + 58, y + 23, 17, primary ? COLORS.white : COLORS.ink, "Semi Bold");
+  return card;
+}
 
-  addGlassCard(screen, 20, 328, 320, 196, 22, 0.84);
-  addText(screen, "活动趋势", 36, 346, 18, COLORS.ink, "Semi Bold");
-  addText(screen, "最近 7 天", 260, 350, 13, COLORS.secondary);
-  addTrendChart(screen, 36, 386, 288, 104, HEX.family, [32, 48, 42, 63, 55, 72, 68]);
-  ["一", "二", "三", "四", "五", "六", "日"].forEach((label, index) => {
-    addText(screen, label, 40 + index * 43, 493, 12, COLORS.secondary);
-  });
+function addFamilyAlertListItem(screen, y, tone, icon, level, title, meta, state) {
+  const card = addGlassCard(screen, 20, y, 320, 112, 22, 0.88);
+  card.name = `Component · 告警卡 / ${title}`;
+  addEllipse(screen, 36, y + 18, 42, 42, tone, 0.92);
+  addIcon(screen, icon, 46, y + 28, 22, icon === "alert" ? HEX.highRisk : HEX.familyDeep, 1.9);
+  addText(screen, level, 94, y + 16, 13, icon === "alert" ? COLORS.highRisk : COLORS.warning, "Semi Bold");
+  addText(screen, title, 94, y + 38, 18, COLORS.ink, "Bold");
+  addText(screen, meta, 36, y + 78, 14, COLORS.secondary, "Regular");
+  addText(screen, state, 246, y + 79, 13, COLORS.family, "Semi Bold");
+  addIcon(screen, "chevron", 310, y + 44, 18, HEX.secondary);
+  return card;
+}
 
-  addText(screen, "最近告警", 20, 550, 18, COLORS.ink, "Semi Bold");
-  addText(screen, "查看全部", 278, 553, 13, COLORS.family, "Semi Bold");
-  addAlertRow(screen, 20, 584, 320, COLORS.blush, "bell", "疑似跌倒", "07:12");
-  addAlertRow(screen, 20, 650, 320, COLORS.sage, "activity", "设备恢复活动", "07:18");
-  addGlassNav(screen, 724, "family", 0);
+function buildFamilyHomeSafe(parent, x, y) {
+  const screen = createFamilyScreen(parent, "F01 · 家属端首页 · 平安 · 360×800", x, y, 61);
+  addGuardianIsland(screen, "safe");
+  addText(screen, "晚上好，张女士", 20, 154, 25, COLORS.ink, "Bold");
+  addText(screen, "今天一切平稳", 20, 189, 15, COLORS.secondary, "Regular");
+  const hero = addGradientRect(screen, 20, 228, 320, 202, COLORS.sage, { r: 0.94, g: 0.97, b: 0.95 }, 28, "vertical");
+  addShadow(hero, { r: 0.075, g: 0.231, b: 0.196, a: 0.09 }, 10, 28);
+  hero.strokes = [solid(COLORS.white, 0.62)];
+  hero.strokeWeight = 1;
+  addRing(screen, 111, 248, 138, 138, COLORS.family, 0.14, 1.3);
+  addRing(screen, 128, 265, 104, 104, COLORS.family, 0.2, 1.4);
+  addEllipse(screen, 150, 287, 60, 60, COLORS.white, 0.78);
+  addIcon(screen, "shield", 166, 303, 28, HEX.family, 1.8);
+  addText(screen, "今日守护平稳", 105, 374, 21, COLORS.ink, "Bold");
+  addText(screen, "最近活动 18:42", 126, 404, 14, COLORS.family, "Semi Bold");
+  addFamilyQuickAction(screen, 20, 450, "phone", "联系老人", true);
+  addFamilyQuickAction(screen, 188, 450, "clock", "今日记录", false);
+  addGlassCard(screen, 20, 542, 320, 136, 22, 0.86);
+  addText(screen, "最近 6 小时活动", 36, 558, 17, COLORS.ink, "Semi Bold");
+  addText(screen, "更新于 18:42", 246, 562, 12, COLORS.secondary, "Regular");
+  addTrendChart(screen, 36, 588, 288, 70, HEX.family, [36, 46, 42, 58, 52, 66, 62]);
+  addGlassNav(screen, 716, "family", 0);
   return screen.id;
 }
 
-function buildFamilyAlert(section) {
-  if (section.findOne((node) => node.name === "Family Alert Detail · 360×800")) return null;
-  const screen = figma.createFrame();
-  screen.name = "Family Alert Detail · 360×800";
-  screen.resize(360, 800);
-  screen.x = 472;
-  screen.y = 48;
-  screen.cornerRadius = 26;
-  screen.clipsContent = true;
-  screen.fills = [solid(COLORS.familyBg)];
-  section.appendChild(screen);
-  created.push(screen.id);
+function buildFamilyHomeAlert(parent, x, y) {
+  const screen = createFamilyScreen(parent, "F02 · 家属端首页 · 新告警 · 360×800", x, y, 63);
+  addGuardianIsland(screen, "alert");
+  addText(screen, "需要尽快确认", 20, 184, 25, COLORS.ink, "Bold");
+  addText(screen, "王叔刚刚发起了主动求助", 20, 219, 15, COLORS.secondary, "Regular");
+  const hero = addGradientRect(screen, 20, 258, 320, 190, COLORS.blush, { r: 0.98, g: 0.94, b: 0.91 }, 28, "vertical");
+  addShadow(hero, { r: 0.761, g: 0.306, b: 0.251, a: 0.1 }, 10, 28);
+  hero.strokes = [solid(COLORS.white, 0.58)];
+  hero.strokeWeight = 1;
+  addRing(screen, 112, 275, 136, 136, COLORS.highRisk, 0.15, 1.3);
+  addRing(screen, 132, 295, 96, 96, COLORS.highRisk, 0.22, 1.4);
+  addEllipse(screen, 151, 314, 58, 58, COLORS.white, 0.8);
+  addIcon(screen, "phone", 166, 329, 28, HEX.highRisk, 1.8);
+  addText(screen, "老人主动求助", 105, 391, 21, COLORS.highRisk, "Bold");
+  addText(screen, "家中 · 2 分钟前", 125, 421, 14, COLORS.secondary, "Semi Bold");
+  addFamilyQuickAction(screen, 20, 472, "phone", "联系老人", false);
+  addFamilyQuickAction(screen, 188, 472, "alert", "查看详情", true);
+  addGlassCard(screen, 20, 568, 320, 104, 22, 0.88);
+  addText(screen, "当前状态", 36, 585, 15, COLORS.secondary, "Semi Bold");
+  addText(screen, "尚无家属接管", 36, 614, 20, COLORS.ink, "Bold");
+  addText(screen, "通知已发送给 3 位家属", 36, 645, 14, COLORS.family, "Semi Bold");
+  addGlassNav(screen, 716, "family", 0);
+  return screen.id;
+}
 
-  addEllipse(screen, 220, -72, 220, 220, COLORS.sage, 0.66, 56);
-  addPearlTexture(screen, 53, COLORS.family);
-  addRing(screen, 248, -30, 132, 132, COLORS.white, 0.38, 1.1);
-  addText(screen, "9:41", 20, 14, 14, COLORS.ink, "Semi Bold");
+function buildFamilyHomeClaimed(parent, x, y) {
+  const screen = createFamilyScreen(parent, "F03 · 家属端首页 · 已接管 · 360×800", x, y, 65);
+  addGuardianIsland(screen, "claimed");
+  addText(screen, "告警处理中", 20, 170, 25, COLORS.ink, "Bold");
+  addText(screen, "家人已经接手，处理进度会持续同步", 20, 205, 15, COLORS.secondary, "Regular");
+  const hero = addGradientRect(screen, 20, 244, 320, 194, COLORS.sage, { r: 0.94, g: 0.97, b: 0.95 }, 28, "vertical");
+  addShadow(hero, { r: 0.075, g: 0.231, b: 0.196, a: 0.09 }, 10, 28);
+  addRing(screen, 112, 264, 136, 136, COLORS.family, 0.14, 1.3);
+  addRing(screen, 132, 284, 96, 96, COLORS.family, 0.22, 1.4);
+  addEllipse(screen, 151, 303, 58, 58, COLORS.white, 0.8);
+  addIcon(screen, "check", 166, 318, 28, HEX.family, 1.8);
+  addText(screen, "张女士已接管", 108, 382, 21, COLORS.ink, "Bold");
+  addText(screen, "正在联系王叔", 128, 412, 14, COLORS.family, "Semi Bold");
+  addFamilyQuickAction(screen, 20, 464, "phone", "联系老人", true);
+  addFamilyQuickAction(screen, 188, 464, "clock", "处理进度", false);
+  addGlassCard(screen, 20, 558, 320, 112, 22, 0.88);
+  addEllipse(screen, 36, 579, 18, 18, COLORS.family);
+  addText(screen, "19:18", 68, 578, 14, COLORS.secondary, "Semi Bold");
+  addText(screen, "张女士确认接管", 130, 576, 16, COLORS.ink, "Semi Bold");
+  addEllipse(screen, 36, 624, 18, 18, COLORS.warning);
+  addText(screen, "19:20", 68, 623, 14, COLORS.secondary, "Semi Bold");
+  addText(screen, "正在尝试联系老人", 130, 621, 16, COLORS.ink, "Semi Bold");
+  addGlassNav(screen, 716, "family", 0);
+  return screen.id;
+}
+
+function buildFamilyAlertList(parent, x, y) {
+  const screen = createFamilyScreen(parent, "F04 · 待处理告警 · 360×800", x, y, 67);
+  addText(screen, "告警", 20, 50, 28, COLORS.ink, "Bold");
+  addIcon(screen, "settings", 308, 52, 22, HEX.secondary);
+  addGlassCard(screen, 20, 94, 320, 44, 20, 0.86);
+  addRect(screen, 26, 100, 152, 32, COLORS.family, null, 16);
+  addText(screen, "待处理  3", 65, 107, 14, COLORS.white, "Semi Bold");
+  addText(screen, "历史记录", 232, 107, 14, COLORS.secondary, "Semi Bold");
+  addFamilyAlertListItem(screen, 158, COLORS.blush, "alert", "高风险", "老人主动求助", "家中 · 2 分钟前", "待接管");
+  addFamilyAlertListItem(screen, 286, COLORS.blush, "alert", "高风险", "厨房燃气异常", "厨房 · 11 分钟前", "待接管");
+  addFamilyAlertListItem(screen, 414, COLORS.goldPale, "bell", "需关注", "入户门长时间未关", "入户门 · 26 分钟前", "已提醒");
+  addGlassCard(screen, 20, 558, 320, 86, 22, 0.82);
+  addIcon(screen, "shield", 38, 580, 24, HEX.family);
+  addText(screen, "设备提醒已移至守护页", 78, 573, 16, COLORS.ink, "Semi Bold");
+  addText(screen, "离线与数据中断不会混入安全告警", 78, 605, 13, COLORS.secondary, "Regular");
+  addGlassNav(screen, 716, "family", 1);
+  return screen.id;
+}
+
+function buildFamilyAlertDetail(parent, x, y) {
+  const screen = createFamilyScreen(parent, "F05 · 告警详情 · 360×800", x, y, 69);
   addText(screen, "‹", 20, 42, 32, COLORS.ink);
   addText(screen, "告警详情", 126, 49, 22, COLORS.ink, "Semi Bold");
   addText(screen, "•••", 310, 50, 18, COLORS.secondary, "Semi Bold");
-
-  const alert = addGradientRect(screen, 20, 96, 320, 136, COLORS.blush, { r: 0.96, g: 0.77, b: 0.72 }, 24);
-  addMaterialFinish(alert, { r: 0.761, g: 0.306, b: 0.251, a: 0.16 });
-  addEllipse(screen, 36, 116, 52, 52, COLORS.white, 0.72);
-  addIcon(screen, "bell", 50, 130, 24, HEX.highRisk);
-  addText(screen, "疑似跌倒", 104, 114, 23, COLORS.highRisk, "Bold");
-  addText(screen, "王建国 · 今天 07:12", 104, 148, 15, COLORS.ink, "Semi Bold");
-  addText(screen, "客厅传感器", 36, 194, 14, COLORS.secondary);
-  addRect(screen, 252, 188, 70, 28, COLORS.highRisk, null, 14);
-  addText(screen, "高风险", 267, 194, 14, COLORS.white, "Semi Bold");
-
-  addGlassCard(screen, 20, 254, 320, 190, 22, 0.86);
-  addText(screen, "活动强度", 36, 274, 18, COLORS.ink, "Semi Bold");
-  addText(screen, "异常前后 10 分钟", 212, 278, 13, COLORS.secondary);
-  addTrendChart(screen, 36, 314, 288, 98, HEX.highRisk, [18, 22, 20, 25, 84, 16, 9]);
-  addText(screen, "07:07", 38, 414, 12, COLORS.secondary);
-  addText(screen, "07:12", 166, 414, 12, COLORS.highRisk, "Semi Bold");
-  addText(screen, "07:17", 286, 414, 12, COLORS.secondary);
-
-  addText(screen, "事件进展", 20, 470, 18, COLORS.ink, "Semi Bold");
-  addGlassCard(screen, 20, 504, 320, 132, 20, 0.78);
-  const events = [
-    ["07:12", "检测到异常动作", COLORS.highRisk],
-    ["07:14", "已通知家人", COLORS.family]
-  ];
-  events.forEach((item, index) => {
-    const y = 522 + index * 54;
-    if (index > 0) addRect(screen, 42, y - 8, 280, 1, COLORS.border, null, 0, null, 0.58);
-    addEllipse(screen, 36, y + 4, 18, 18, item[2]);
-    addText(screen, item[0], 70, y + 3, 14, COLORS.secondary, "Semi Bold");
-    addText(screen, item[1], 132, y + 1, 16, COLORS.ink, "Semi Bold");
-  });
-  addText(screen, "传感数据仅供辅助判断", 36, 612, 13, COLORS.secondary);
-
-  addGlassCard(screen, 12, 674, 336, 76, 24, 0.9);
-  addGradientRect(screen, 24, 686, 116, 52, COLORS.family, COLORS.familyDeep, 16);
-  addIcon(screen, "check", 36, 702, 20, HEX.white);
-  addText(screen, "确认接管", 62, 701, 16, COLORS.white, "Semi Bold");
-  addRect(screen, 150, 686, 82, 52, COLORS.white, null, 16, { color: COLORS.family, opacity: 0.18 }, 0.72);
-  addText(screen, "静音", 175, 701, 16, COLORS.familyDeep, "Semi Bold");
-  addGradientRect(screen, 242, 686, 94, 52, { r: 0.85, g: 0.34, b: 0.28 }, COLORS.highRisk, 16);
-  addIcon(screen, "phone", 253, 702, 20, HEX.white);
-  addText(screen, "联系", 280, 701, 16, COLORS.white, "Semi Bold");
+  const header = addGradientRect(screen, 20, 96, 320, 122, COLORS.blush, { r: 0.97, g: 0.82, b: 0.78 }, 24, "horizontal");
+  addShadow(header, { r: 0.761, g: 0.306, b: 0.251, a: 0.11 }, 8, 24);
+  header.strokes = [solid(COLORS.white, 0.5)];
+  header.strokeWeight = 1;
+  addEllipse(screen, 36, 116, 48, 48, COLORS.white, 0.78);
+  addIcon(screen, "phone", 48, 128, 24, HEX.highRisk);
+  addText(screen, "老人主动求助", 100, 110, 22, COLORS.highRisk, "Bold");
+  addText(screen, "王建国 · 今天 19:16", 100, 143, 14, COLORS.ink, "Semi Bold");
+  addText(screen, "来源：随身求助按钮", 36, 186, 14, COLORS.secondary, "Regular");
+  addRect(screen, 252, 180, 70, 28, COLORS.highRisk, null, 14);
+  addText(screen, "高风险", 267, 186, 14, COLORS.white, "Semi Bold");
+  addGlassCard(screen, 20, 236, 320, 64, 20, 0.88);
+  addIcon(screen, "message", 36, 256, 22, HEX.family);
+  addText(screen, "老人主动发起求助，尚无家属接管", 72, 252, 15, COLORS.ink, "Semi Bold");
+  addGlassCard(screen, 20, 318, 320, 150, 22, 0.88);
+  addText(screen, "求助前活动", 36, 336, 17, COLORS.ink, "Semi Bold");
+  addText(screen, "最近 30 分钟", 244, 340, 12, COLORS.secondary, "Regular");
+  addTrendChart(screen, 36, 370, 288, 76, HEX.family, [42, 48, 45, 52, 49, 56, 38]);
+  addText(screen, "处理时间线", 20, 490, 18, COLORS.ink, "Semi Bold");
+  addGlassCard(screen, 20, 522, 320, 126, 22, 0.86);
+  addEllipse(screen, 36, 543, 18, 18, COLORS.highRisk);
+  addText(screen, "19:16", 68, 542, 14, COLORS.secondary, "Semi Bold");
+  addText(screen, "老人发起主动求助", 130, 540, 16, COLORS.ink, "Semi Bold");
+  addEllipse(screen, 36, 594, 18, 18, COLORS.family);
+  addText(screen, "19:17", 68, 593, 14, COLORS.secondary, "Semi Bold");
+  addText(screen, "已通知 3 位家属", 130, 591, 16, COLORS.ink, "Semi Bold");
+  addGlassCard(screen, 12, 674, 336, 76, 24, 0.92);
+  addRect(screen, 24, 686, 132, 52, COLORS.white, null, 16, { color: COLORS.family, opacity: 0.2, weight: 1 }, 0.86);
+  addText(screen, "暂时静音", 53, 702, 16, COLORS.familyDeep, "Semi Bold");
+  addGradientRect(screen, 166, 686, 170, 52, COLORS.family, COLORS.familyDeep, 16, "horizontal");
+  addIcon(screen, "check", 184, 702, 20, HEX.white);
+  addText(screen, "确认接管", 214, 701, 16, COLORS.white, "Semi Bold");
   return screen.id;
+}
+
+function buildFamilyActionSheet(parent, x, y) {
+  const screen = createFamilyScreen(parent, "F06 · 确认与静音弹窗 · 360×800", x, y, 71);
+  addText(screen, "告警详情", 20, 52, 26, COLORS.ink, "Bold");
+  addGlassCard(screen, 20, 104, 320, 118, 22, 0.72);
+  addText(screen, "老人主动求助", 36, 124, 20, COLORS.highRisk, "Bold");
+  addText(screen, "王建国 · 今天 19:16", 36, 158, 14, COLORS.secondary, "Regular");
+  addText(screen, "尚无家属接管", 36, 190, 15, COLORS.ink, "Semi Bold");
+  addRect(screen, 0, 0, 360, 800, COLORS.ink, null, 0, null, 0.24);
+  const sheet = addRect(screen, 0, 372, 360, 428, COLORS.surface, null, 28, { color: COLORS.white, opacity: 0.78, weight: 1 }, 0.99);
+  sheet.name = "Component · 确认与静音弹窗";
+  addRect(screen, 154, 386, 52, 5, COLORS.muted, null, 3);
+  addText(screen, "处理这条告警", 24, 416, 24, COLORS.ink, "Bold");
+  addText(screen, "接管后，其他家属会看到由你负责处理", 24, 454, 14, COLORS.secondary, "Regular");
+  const claim = addGradientRect(screen, 24, 500, 312, 58, COLORS.family, COLORS.familyDeep, 18, "horizontal");
+  addShadow(claim, { r: 0.075, g: 0.231, b: 0.196, a: 0.14 }, 7, 20);
+  addIcon(screen, "check", 70, 518, 22, HEX.white);
+  addText(screen, "确认由我接管", 108, 516, 18, COLORS.white, "Semi Bold");
+  addText(screen, "只暂停我收到的重复提醒", 24, 594, 16, COLORS.ink, "Semi Bold");
+  addRect(screen, 24, 628, 148, 52, COLORS.white, null, 16, { color: COLORS.family, opacity: 0.2, weight: 1 }, 0.9);
+  addText(screen, "静音 10 分钟", 47, 644, 16, COLORS.familyDeep, "Semi Bold");
+  addRect(screen, 188, 628, 148, 52, COLORS.white, null, 16, { color: COLORS.family, opacity: 0.2, weight: 1 }, 0.9);
+  addText(screen, "静音 30 分钟", 211, 644, 16, COLORS.familyDeep, "Semi Bold");
+  addText(screen, "静音不会改变风险，也不会影响其他家属", 24, 700, 13, COLORS.secondary, "Regular");
+  addText(screen, "取消", 164, 752, 16, COLORS.secondary, "Semi Bold");
+  return screen.id;
+}
+
+async function wireFamilyPrototype(family) {
+  const links = [
+    [family.homeAlert, 20, 48, 320, 108, family.alertDetail, "新告警守护岛 → 告警详情"],
+    [family.homeAlert, 188, 472, 152, 72, family.alertDetail, "首页查看详情 → 告警详情"],
+    [family.homeClaimed, 20, 48, 320, 92, family.alertDetail, "已接管守护岛 → 告警详情"],
+    [family.alertList, 20, 158, 320, 112, family.alertDetail, "待处理告警 → 告警详情"],
+    [family.alertDetail, 24, 686, 132, 52, family.actionSheet, "暂时静音 → 操作弹窗"],
+    [family.alertDetail, 166, 686, 170, 52, family.actionSheet, "确认接管 → 操作弹窗"],
+    [family.actionSheet, 24, 500, 312, 58, family.homeClaimed, "确认接管 → 已接管首页"],
+    [family.actionSheet, 138, 736, 84, 52, family.alertDetail, "取消 → 告警详情"]
+  ];
+  const homeScreens = [family.homeSafe, family.homeAlert, family.homeClaimed, family.alertList];
+  for (const screenId of homeScreens) {
+    links.push([screenId, 12, 708, 82, 72, family.homeSafe, "底部导航 → 首页"]);
+    links.push([screenId, 94, 708, 82, 72, family.alertList, "底部导航 → 告警"]);
+  }
+  for (const args of links) await addPrototypeHotspot(...args);
 }
 
 async function addPrototypeHotspot(screenId, x, y, width, height, destinationId, name) {
@@ -981,7 +1119,7 @@ async function main() {
     const originalPage = figma.currentPage;
     const originalCenter = { ...figma.viewport.center };
     const originalZoom = figma.viewport.zoom;
-    figma.notify("SilverGuard：正在生成完整老人端页面…", { timeout: 2000 });
+    figma.notify("SilverGuard：正在生成老人端与家属端核心页面…", { timeout: 2000 });
     await figma.loadFontAsync({ family: "Inter", style: "Regular" });
     await figma.loadFontAsync({ family: "Inter", style: "Semi Bold" });
     await figma.loadFontAsync({ family: "Inter", style: "Bold" });
@@ -1054,12 +1192,19 @@ async function main() {
     await wireElderPrototype(elder);
 
     await figma.setCurrentPageAsync(familyPage);
-    const familyNames = new Set(["Family Overview · 360×800", "Family Alert Detail · 360×800"]);
     for (const node of [...familyPage.children]) {
-      if (node.type === "FRAME" && familyNames.has(node.name)) node.remove();
+      if (node.type === "FRAME" && (/^F\d/.test(node.name) || node.name.startsWith("Family "))) node.remove();
     }
-    const familyOverviewId = buildFamilyOverview(familyPage);
-    const familyAlertId = buildFamilyAlert(familyPage);
+    const family = {
+      homeSafe: buildFamilyHomeSafe(familyPage, 48, 48),
+      homeAlert: buildFamilyHomeAlert(familyPage, 456, 48),
+      homeClaimed: buildFamilyHomeClaimed(familyPage, 864, 48),
+      alertList: buildFamilyAlertList(familyPage, 1272, 48),
+      alertDetail: buildFamilyAlertDetail(familyPage, 48, 928),
+      actionSheet: buildFamilyActionSheet(familyPage, 456, 928)
+    };
+    const familyIds = Object.values(family);
+    await wireFamilyPrototype(family);
 
     await figma.setCurrentPageAsync(componentsPage);
     for (const node of [...componentsPage.children]) {
@@ -1070,7 +1215,7 @@ async function main() {
     figma.viewport.center = originalCenter;
     figma.viewport.zoom = originalZoom;
     clearTimeout(watchdog);
-    figma.closePlugin(`SilverGuard 老人端 ${elderIds.length} 张页面已生成，子女端 2 张页面已保留`);
+    figma.closePlugin(`SilverGuard 老人端 ${elderIds.length} 张、家属端核心 ${familyIds.length} 张页面已生成`);
   } catch (error) {
     clearTimeout(watchdog);
     const message = error instanceof Error ? error.message : String(error);
