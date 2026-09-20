@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { onHide, onUnload } from '@dcloudio/uni-app';
+import { computed, ref } from 'vue';
+import { onHide, onShow, onUnload } from '@dcloudio/uni-app';
 import SgButton from '@/components/SgButton.vue';
+import { getPriorityMedication } from '@/features/medication/domain';
+import { createMedicationRepository } from '@/features/medication/repository';
+import type { MedicationPlan } from '@/features/medication/types';
 import { createMockSosGateway } from '@/features/sos/gateway';
 import { useSosFlow } from '@/features/sos/useSosFlow';
 
@@ -9,6 +13,14 @@ const demoOutcome = configuredOutcome === 'timeout' || configuredOutcome === 'fa
   ? configuredOutcome
   : 'claimed';
 const gateway = createMockSosGateway({ outcome: demoOutcome });
+const medicationRepository = createMedicationRepository();
+const priorityMedication = ref<MedicationPlan>();
+const medicineTitle = computed(() => priorityMedication.value
+  ? `${priorityMedication.value.medicineName} · ${priorityMedication.value.dose}`
+  : '今日用药已完成');
+const medicineTime = computed(() => priorityMedication.value
+  ? `今天 ${priorityMedication.value.time}`
+  : '已全部确认');
 const {
   state,
   holdProgress,
@@ -62,11 +74,20 @@ function reportSafe() {
   uni.showToast({ title: '已记录今日平安', icon: 'success' });
 }
 
+function openMedication() {
+  uni.navigateTo({ url: '/pages/elder/medication/index' });
+}
+
 function announceVoicePlaceholder() {
   uni.showToast({ title: '语音功能将在后续切片接入', icon: 'none' });
 }
 
 onHide(cancelHold);
+onShow(() => {
+  priorityMedication.value = getPriorityMedication(
+    medicationRepository.listToday().filter((plan) => plan.status !== 'completed'),
+  );
+});
 onUnload(() => {
   if (touchReleaseTimer) clearTimeout(touchReleaseTimer);
   dispose();
@@ -146,13 +167,13 @@ onUnload(() => {
       </button>
     </view>
 
-    <view class="medicine-card">
+    <view class="medicine-card" @click="openMedication">
       <view class="medicine-icon">药</view>
       <view class="medicine-copy">
-        <text class="medicine-title">降压药 · 1 片</text>
-        <text class="medicine-time">今天 12:00</text>
+        <text class="medicine-title">{{ medicineTitle }}</text>
+        <text class="medicine-time">{{ medicineTime }}</text>
       </view>
-      <button class="medicine-action">查看</button>
+      <button class="medicine-action" @click.stop="openMedication">查看</button>
     </view>
 
     <SgButton class="voice-button" @press="announceVoicePlaceholder">

@@ -5,6 +5,7 @@
   "scripts": {
     "dev:h5": "uni",
     "build:h5": "uni build",
+    "build:app": "uni build -p app-plus",
     "type-check": "vue-tsc --noEmit",
     "test": "vitest run --config vitest.config.ts"
   },

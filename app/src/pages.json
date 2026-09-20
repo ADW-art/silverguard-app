@@ -6,6 +6,20 @@
         "navigationStyle": "custom",
         "navigationBarTitleText": "银龄智护"
       }
+    },
+    {
+      "path": "pages/elder/medication/index",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "今日用药"
+      }
+    },
+    {
+      "path": "pages/elder/medication/detail",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "用药提醒"
+      }
     }
   ],
   "globalStyle": {
