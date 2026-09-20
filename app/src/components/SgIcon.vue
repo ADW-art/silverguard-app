@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { computed } from 'vue';
+
 const props = withDefaults(defineProps<{
-  name: 'home' | 'shield-check' | 'sos' | 'heart' | 'users' | 'calendar' | 'pill' | 'mic' | 'bell' | 'user' | 'phone' | 'clock';
+  name: 'home' | 'shield-check' | 'sos' | 'heart' | 'users' | 'calendar' | 'pill' | 'mic' | 'bell' | 'user' | 'phone' | 'clock' | 'chevron-left' | 'chevron-right';
   size?: number;
   label?: string;
 }>(), {
@@ -8,7 +10,7 @@ const props = withDefaults(defineProps<{
   label: '',
 });
 
-const source = `/static/icons/${props.name}.svg`;
+const source = computed(() => `/static/icons/${props.name}.svg`);
 </script>
 
 <template>
