@@ -2,7 +2,7 @@
 
 全新的 uni-app + Vue 3 + TypeScript 前端。禁止从旧项目复制页面、组件、结构或写死数据。
 
-当前实现范围包括 `elder-sos-flow`、`elder-medication-flow` 和已归档的 `elder-visual-polish`：老人端首页、3 秒长按求助及结果反馈，以及今日用药、提醒详情、确认服药和稍后提醒。三张页面共享暖金材质、本地 SVG 图标、按压与状态动效，并支持系统减少动效偏好。开发环境使用本地模拟网关和本机用药存储，不会发送真实通知、拨打电话或同步医疗数据。
+当前实现范围包括 `elder-sos-flow`、`elder-medication-flow`、已归档的 `elder-visual-polish`，以及正在实施的 `elder-life-tools`。老人端可运行首页、3 秒长按求助、今日用药、提醒详情、生活首页、日历日程和大字计算器。这些页面共享暖金材质、本地 SVG 图标、按压与状态动效，并支持系统减少动效偏好。开发环境使用本地模拟网关、本机用药存储和本地演示日程，不会发送真实通知、拨打电话、同步系统日历或同步医疗数据。
 
 ## 命令行运行
 
@@ -36,6 +36,8 @@ npm run dev:h5
 ```
 
 用药演示状态保存在 `silverguard.medication.today.v1`。需要重新体验初始计划时，可清除浏览器站点数据或 App 本地存储后重新进入。
+
+生活首页路径为 `#/pages/elder/life/index`。日历日程与大字计算器为可运行的本地功能；手电筒和实时放大镜仍需要 Android 原生能力，H5 不模拟闪光灯或相机画面。平台边界见 [生活工具平台说明](../docs/LIFE_TOOLS_PLATFORM.md)。
 
 ## HBuilderX / Android
 

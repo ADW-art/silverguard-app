@@ -36,6 +36,14 @@ function contactFamily() {
   uni.showToast({ title: '演示模式：未拨打电话', icon: 'none' });
 }
 
+function goHome() {
+  uni.reLaunch({ url: '/pages/elder/home' });
+}
+
+function openLife() {
+  uni.navigateTo({ url: '/pages/elder/life/index' });
+}
+
 onShow(refresh);
 </script>
 
@@ -93,8 +101,8 @@ onShow(refresh);
     <text class="demo-note">本地演示计划 · 尚未同步给医生或家人</text>
 
     <view class="bottom-nav">
-      <view class="nav-item nav-item--active"><view class="nav-mark"><SgIcon name="home" :size="20" /></view><text>首页</text></view>
-      <view class="nav-item"><view class="nav-mark"><SgIcon name="calendar" :size="20" /></view><text>生活</text></view>
+      <view class="nav-item nav-item--active" @click="goHome"><view class="nav-mark"><SgIcon name="home" :size="20" /></view><text>首页</text></view>
+      <view class="nav-item" @click="openLife"><view class="nav-mark"><SgIcon name="calendar" :size="20" /></view><text>生活</text></view>
       <view class="nav-item"><view class="nav-mark"><SgIcon name="bell" :size="20" /></view><text>消息</text></view>
       <view class="nav-item"><view class="nav-mark"><SgIcon name="user" :size="20" /></view><text>我的</text></view>
     </view>

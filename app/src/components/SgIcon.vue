@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 
 const props = withDefaults(defineProps<{
-  name: 'home' | 'shield-check' | 'sos' | 'heart' | 'users' | 'calendar' | 'pill' | 'mic' | 'bell' | 'user' | 'phone' | 'clock' | 'chevron-left' | 'chevron-right';
+  name: 'home' | 'shield-check' | 'sos' | 'heart' | 'users' | 'calendar' | 'pill' | 'mic' | 'bell' | 'user' | 'phone' | 'clock' | 'chevron-left' | 'chevron-right' | 'flashlight' | 'magnifier' | 'calculator';
   size?: number;
   label?: string;
 }>(), {

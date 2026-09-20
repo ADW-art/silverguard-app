@@ -95,6 +95,10 @@ function openMedication() {
   uni.navigateTo({ url: '/pages/elder/medication/index' });
 }
 
+function openLife() {
+  uni.navigateTo({ url: '/pages/elder/life/index' });
+}
+
 function announceVoicePlaceholder() {
   uni.showToast({ title: '语音功能将在后续切片接入', icon: 'none' });
 }
@@ -179,7 +183,7 @@ onUnload(() => {
         <view class="action-mark action-mark--green"><SgIcon name="users" :size="27" /></view>
         <text class="action-title">联系家人</text>
       </button>
-      <button class="home-action">
+      <button class="home-action" @click="openLife">
         <view class="action-mark action-mark--green"><SgIcon name="calendar" :size="27" /></view>
         <text class="action-title">生活工具</text>
       </button>
@@ -202,7 +206,7 @@ onUnload(() => {
 
     <view class="bottom-nav">
       <view class="nav-item nav-item--active"><view class="nav-mark"><SgIcon name="home" :size="20" /></view><text>首页</text></view>
-      <view class="nav-item"><view class="nav-mark"><SgIcon name="calendar" :size="20" /></view><text>生活</text></view>
+      <view class="nav-item" @click="openLife"><view class="nav-mark"><SgIcon name="calendar" :size="20" /></view><text>生活</text></view>
       <view class="nav-item"><view class="nav-mark"><SgIcon name="bell" :size="20" /></view><text>消息</text></view>
       <view class="nav-item"><view class="nav-mark"><SgIcon name="user" :size="20" /></view><text>我的</text></view>
     </view>

@@ -20,6 +20,27 @@
         "navigationStyle": "custom",
         "navigationBarTitleText": "用药提醒"
       }
+    },
+    {
+      "path": "pages/elder/life/index",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "生活"
+      }
+    },
+    {
+      "path": "pages/elder/life/calendar",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "日历日程"
+      }
+    },
+    {
+      "path": "pages/elder/life/calculator",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "大字计算器"
+      }
     }
   ],
   "globalStyle": {
