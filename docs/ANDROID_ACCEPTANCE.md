@@ -7,7 +7,7 @@
 - HBuilderX：`D:\hbuilder x\HBuilderX\HBuilderX.exe`
 - Android SDK：`E:\Android\Sdk`
 - 2026-09-20：`npm run build:app` 对 App 平台编译成功。
-- 2026-09-20：ADB 设备列表为空，本轮没有可用真机或模拟器。
+- 2026-09-20：HBuilderX 4.87 正在运行；重新启动 ADB 并检查 mDNS 后设备列表仍为空，本轮尚不能验证设备端触摸、振动和安全区。
 
 ## 设备信息
 
