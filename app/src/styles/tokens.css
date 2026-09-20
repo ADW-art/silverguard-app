@@ -1,0 +1,21 @@
+:root,
+page {
+  --sg-background: #f8f2e6;
+  --sg-surface: #fffdf8;
+  --sg-ink: #231e17;
+  --sg-secondary: #6e665a;
+  --sg-gold: #d6a84b;
+  --sg-gold-deep: #865c1c;
+  --sg-gold-pale: #fbecc9;
+  --sg-champagne: #f3d79a;
+  --sg-safe: #22594d;
+  --sg-safe-soft: #d7e9dc;
+  --sg-risk: #a33a32;
+  --sg-risk-soft: #fad1c8;
+  --sg-border: rgba(214, 168, 75, 0.26);
+  --sg-shadow: 0 12px 28px rgba(35, 30, 23, 0.11);
+  --sg-shadow-soft: 0 8px 22px rgba(35, 30, 23, 0.08);
+  --sg-radius-card: 20px;
+  --sg-radius-hero: 24px;
+  --sg-radius-button: 18px;
+}

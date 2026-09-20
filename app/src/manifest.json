@@ -1,0 +1,28 @@
+{
+  "name": "银龄智护",
+  "appid": "",
+  "description": "养老 AI 主动守护与家庭协同 App",
+  "versionName": "0.1.0",
+  "versionCode": "1",
+  "transformPx": false,
+  "app-plus": {
+    "usingComponents": true,
+    "nvueStyleCompiler": "uni-app",
+    "compilerVersion": 3,
+    "splashscreen": {
+      "alwaysShowBeforeRender": true,
+      "waiting": true,
+      "autoclose": true,
+      "delay": 0
+    },
+    "modules": {},
+    "distribute": {
+      "android": { "permissions": [] },
+      "ios": {},
+      "sdkConfigs": {}
+    }
+  },
+  "h5": { "title": "银龄智护" },
+  "uniStatistics": { "enable": false },
+  "vueVersion": "3"
+}

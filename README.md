@@ -22,7 +22,7 @@
 
 1. 阅读 [AGENTS.md](./AGENTS.md) 和 [开发环境说明](./docs/DEVELOPMENT_SETUP.md)。
 2. 阅读 [项目进度](./docs/PROGRESS.md)、[产品定义](./docs/PRODUCT.md)、[架构说明](./docs/ARCHITECTURE.md) 和 [验收标准](./docs/ACCEPTANCE.md)。
-3. 先完成设计索引 [design/README.md](./design/README.md)，再开始 App 页面实现。
+3. 前端启动与验证命令见 [app/README.md](./app/README.md)，设计依据见 [design/README.md](./design/README.md)。
 4. 每项功能通过 OpenSpec change 管理，不一次性生成整套未经确认的 App。
 
 ## 当前状态
@@ -35,11 +35,12 @@
 - [x] 老人端 17 张页面/状态及主要点击路径生成
 - [x] 家属端功能范围、UX 规格和跨角色告警状态确认
 - [ ] 家属端完整页面和跨角色点击原型生成
-- [ ] 建立首个功能实现 OpenSpec change
+- [x] 建立首个功能实现 OpenSpec change
+- [x] 老人端首页与本地模拟求助流程可在 H5 运行
 - [ ] 服务端数据库迁移和核心业务模块实现
-- [ ] uni-app 前端实现与真机验收
+- [ ] Android 真机验收
 - [ ] 养老总控制台接口联调
 
 ## 重要说明
 
-当前已完成工程基础、视觉基线、老人端第一轮完整设计，以及家属端与跨角色告警的正式规格；家属端完整页面尚未生成，也尚未进入业务功能实现，不宣称已有可运行 App。最新完成项、未完成项和下一里程碑以 [项目进度](./docs/PROGRESS.md) 为准。后续按“需求确认 → 设计确认 → OpenSpec change → 单任务实现 → 测试/真机验收 → 独立复核”的节奏推进。
+当前已有可运行的老人端首页和本地模拟求助流程，但它只用于验证交互与状态，不会发送真实通知、拨打电话或写入服务端。Android 真机、真实登录、家庭绑定、服务端事件和家属接管尚未完成。最新完成项、未完成项和下一里程碑以 [项目进度](./docs/PROGRESS.md) 为准。后续按“需求确认 → 设计确认 → OpenSpec change → 单任务实现 → 测试/真机验收 → 独立复核”的节奏推进。

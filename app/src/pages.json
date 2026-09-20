@@ -1,0 +1,17 @@
+{
+  "pages": [
+    {
+      "path": "pages/elder/home",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "银龄智护"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "银龄智护",
+    "navigationBarBackgroundColor": "#F8F2E6",
+    "backgroundColor": "#F8F2E6"
+  }
+}
