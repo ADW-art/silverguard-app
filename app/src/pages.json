@@ -36,6 +36,13 @@
       }
     },
     {
+      "path": "pages/elder/life/flashlight",
+      "style": {
+        "navigationStyle": "custom",
+        "navigationBarTitleText": "手电筒"
+      }
+    },
+    {
       "path": "pages/elder/life/calculator",
       "style": {
         "navigationStyle": "custom",

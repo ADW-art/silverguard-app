@@ -27,6 +27,10 @@ function refresh() {
 }
 
 function openTool(id: typeof tools[number]['id']) {
+  if (id === 'flashlight') {
+    uni.navigateTo({ url: '/pages/elder/life/flashlight' });
+    return;
+  }
   if (id === 'calendar') {
     uni.navigateTo({ url: '/pages/elder/life/calendar' });
     return;
@@ -35,9 +39,8 @@ function openTool(id: typeof tools[number]['id']) {
     uni.navigateTo({ url: '/pages/elder/life/calculator' });
     return;
   }
-  const title = tools.find((tool) => tool.id === id)?.title ?? '此工具';
   uni.showModal({
-    title,
+    title: '放大镜',
     content: '该功能需要 Android 设备能力，完成权限和设备验证后开放。',
     showCancel: false,
     confirmText: '我知道了',

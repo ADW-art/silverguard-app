@@ -12,7 +12,16 @@
 
 ### 手电筒
 
-目标实现必须调用 Android 真实闪光灯能力，并覆盖开启、关闭、权限失败、设备不支持、离页关闭和切后台释放。H5 只说明当前平台不支持，不用屏幕变亮或按钮动画冒充手电筒。
+当前实现通过 HTML5+ Native.js 调用 Android `CameraManager.setTorchMode`，并在打开前检查 Android API 版本、闪光灯硬件与相机权限。控制器串行处理开启和关闭，在离页、切后台或开启过程中发生取消时关闭 torch。H5 只说明当前平台不支持，不用屏幕变亮或按钮动画冒充手电筒。
+
+相关官方依据：
+
+- [Android CameraManager](https://developer.android.com/reference/android/hardware/camera2/CameraManager)：`setTorchMode`、相机占用和服务异常边界。
+- [Android PackageManager](https://developer.android.com/reference/android/content/pm/PackageManager)：`FEATURE_CAMERA_FLASH` 硬件能力。
+- [HTML5+ Native.js for Android](https://www.html5plus.org/doc/zh_cn/android.html)：`plus.android`、权限申请和原生 API 调用。
+- [uni-app Android 权限配置](https://uniapp.dcloud.net.cn/tutorial/app-permission-android.html)：`manifest.json` 相机权限声明。
+
+App 平台编译已经通过；真实灯光、首次权限弹窗、永久拒绝、相机占用和离页关闭仍需使用包含当前权限声明的 Android 自定义调试基座验收。
 
 ### 实时放大镜
 

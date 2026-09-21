@@ -17,7 +17,12 @@
     },
     "modules": {},
     "distribute": {
-      "android": { "permissions": [] },
+      "android": {
+        "permissions": [
+          "<uses-permission android:name=\"android.permission.CAMERA\" />",
+          "<uses-feature android:name=\"android.hardware.camera.flash\" android:required=\"false\" />"
+        ]
+      },
       "ios": {},
       "sdkConfigs": {}
     }
