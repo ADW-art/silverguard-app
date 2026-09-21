@@ -54,35 +54,37 @@ function toggleSign() {
       <view class="header-space" />
     </view>
 
-    <view class="display-card" :class="{ 'display-card--error': state.error }">
-      <view class="display-mark"><SgIcon name="calculator" :size="25" /></view>
-      <text class="expression">{{ expression }}</text>
-      <text class="display-value">{{ state.display }}</text>
-    </view>
+    <view class="instrument-panel">
+      <view class="display-card" :class="{ 'display-card--error': state.error }">
+        <view class="display-mark"><SgIcon name="calculator" :size="25" /></view>
+        <text class="expression">{{ expression }}</text>
+        <text class="display-value">{{ state.display }}</text>
+      </view>
 
-    <view class="keypad">
-      <button class="key key--utility" @click="clear">清除</button>
-      <button class="key key--utility" @click="toggleSign">±</button>
-      <button class="key key--operator" @click="operator('÷')">÷</button>
-      <button class="key key--operator" @click="operator('×')">×</button>
+      <view class="keypad">
+        <button class="key key--utility" @click="clear">清除</button>
+        <button class="key key--utility" @click="toggleSign">±</button>
+        <button class="key key--operator" @click="operator('÷')">÷</button>
+        <button class="key key--operator" @click="operator('×')">×</button>
 
-      <button class="key" @click="digit('7')">7</button>
-      <button class="key" @click="digit('8')">8</button>
-      <button class="key" @click="digit('9')">9</button>
-      <button class="key key--operator" @click="operator('-')">−</button>
+        <button class="key" @click="digit('7')">7</button>
+        <button class="key" @click="digit('8')">8</button>
+        <button class="key" @click="digit('9')">9</button>
+        <button class="key key--operator" @click="operator('-')">−</button>
 
-      <button class="key" @click="digit('4')">4</button>
-      <button class="key" @click="digit('5')">5</button>
-      <button class="key" @click="digit('6')">6</button>
-      <button class="key key--operator" @click="operator('+')">+</button>
+        <button class="key" @click="digit('4')">4</button>
+        <button class="key" @click="digit('5')">5</button>
+        <button class="key" @click="digit('6')">6</button>
+        <button class="key key--operator" @click="operator('+')">+</button>
 
-      <button class="key" @click="digit('1')">1</button>
-      <button class="key" @click="digit('2')">2</button>
-      <button class="key" @click="digit('3')">3</button>
-      <button class="key key--equals" @click="equals">=</button>
+        <button class="key" @click="digit('1')">1</button>
+        <button class="key" @click="digit('2')">2</button>
+        <button class="key" @click="digit('3')">3</button>
+        <button class="key key--equals" @click="equals">=</button>
 
-      <button class="key key--zero" @click="digit('0')">0</button>
-      <button class="key" @click="decimal">.</button>
+        <button class="key key--zero" @click="digit('0')">0</button>
+        <button class="key" @click="decimal">.</button>
+      </view>
     </view>
   </view>
 </template>
@@ -97,19 +99,21 @@ function toggleSign() {
 .back-button:active { transform:scale(.94); box-shadow:var(--sg-shadow-pressed); }
 .page-title { font-size:22px; font-weight:750; text-align:center; }
 .header-space { width:48px; }
-.display-card { position:relative; z-index:1; display:flex; flex-direction:column; align-items:flex-end; min-height:158px; margin-top:18px; padding:19px 22px 20px; overflow:hidden; border:1px solid rgba(130,91,31,.16); border-radius:26px; background:radial-gradient(circle at 84% 8%,rgba(255,255,255,.5),transparent 28%),linear-gradient(138deg,#faeac2 0%,#edca7e 58%,#dcb25e 100%); box-shadow:var(--sg-shadow),inset 0 1px var(--sg-highlight); animation:calc-rise var(--sg-motion-emphasized) 45ms var(--sg-ease-emphasized) both; }
+.instrument-panel { position:relative; z-index:1; margin-top:18px; padding:12px; border:1px solid rgba(130,91,31,.14); border-radius:30px 30px 30px 10px; background:linear-gradient(155deg,rgba(255,253,248,.82),rgba(230,218,197,.88)); box-shadow:0 18px 40px rgba(61,45,27,.12),inset 0 1px rgba(255,255,255,.72); animation:calc-panel-in var(--sg-motion-emphasized) 45ms var(--sg-ease-emphasized) both; }
+.display-card { position:relative; display:flex; flex-direction:column; align-items:flex-end; min-height:148px; padding:19px 20px 20px; overflow:hidden; border:1px solid rgba(130,91,31,.14); border-radius:22px 22px 14px 14px; background:radial-gradient(circle at 84% 8%,rgba(255,255,255,.5),transparent 28%),linear-gradient(138deg,#faeac2 0%,#edca7e 58%,#dcb25e 100%); box-shadow:inset 0 1px var(--sg-highlight); }
 .display-card--error { border-color:rgba(163,58,50,.18); background:radial-gradient(circle at 84% 8%,rgba(255,255,255,.46),transparent 28%),linear-gradient(138deg,#fee8df,#f2c6bc); }
 .display-mark { position:absolute; top:18px; left:20px; display:grid; place-items:center; width:44px; height:44px; border-radius:14px; background:rgba(255,249,234,.64); box-shadow:inset 0 1px rgba(255,255,255,.62),0 7px 18px rgba(111,78,31,.1); }
 .expression { min-height:30px; color:#685334; font-size:18px; font-weight:650; }
 .display-value { display:block; max-width:100%; margin-top:auto; overflow:hidden; color:var(--sg-ink); font-size:48px; font-weight:780; letter-spacing:-1px; line-height:1.05; text-overflow:ellipsis; white-space:nowrap; }
 .display-card--error .display-value { color:var(--sg-risk); font-size:35px; }
-.keypad { position:relative; z-index:1; display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:66px; gap:10px; margin-top:20px; animation:calc-rise var(--sg-motion-emphasized) 100ms var(--sg-ease-emphasized) both; }
-.key { display:grid; place-items:center; min-width:0; min-height:66px; margin:0; padding:0; border:1px solid var(--sg-border); border-radius:19px; color:var(--sg-ink); background:linear-gradient(155deg,rgba(255,253,248,.97),rgba(244,234,216,.95)); box-shadow:var(--sg-shadow-soft),inset 0 1px var(--sg-highlight); font-size:25px; font-weight:720; line-height:66px; transition:transform var(--sg-motion-fast) var(--sg-ease-standard),box-shadow var(--sg-motion-fast) ease,filter var(--sg-motion-fast) ease; }
+.keypad { display:grid; grid-template-columns:repeat(4,1fr); grid-auto-rows:64px; gap:9px; margin-top:12px; }
+.key { display:grid; place-items:center; min-width:0; min-height:64px; margin:0; padding:0; border:1px solid rgba(130,91,31,.12); border-radius:17px; color:var(--sg-ink); background:linear-gradient(155deg,rgba(255,253,248,.96),rgba(244,234,216,.93)); box-shadow:0 5px 13px rgba(61,45,27,.07),inset 0 1px var(--sg-highlight); font-size:25px; font-weight:720; line-height:64px; transition:transform var(--sg-motion-fast) var(--sg-ease-standard),box-shadow var(--sg-motion-fast) ease,filter var(--sg-motion-fast) ease; }
 .key:active { transform:scale(.94); box-shadow:var(--sg-shadow-pressed); filter:brightness(.97); }
 .key--utility { font-size:18px; background:linear-gradient(150deg,#f7f4ec,#e6ddce); }
 .key--operator { color:var(--sg-gold-deep); background:linear-gradient(150deg,#fff4d6,#edcf8a); }
 .key--equals { grid-column:4; grid-row:4 / 6; color:#fffaf1; background:linear-gradient(145deg,#4b3825 0%,var(--sg-coffee) 52%,#261c13 100%); box-shadow:var(--sg-shadow-dark); font-size:30px; }
 .key--zero { grid-column:1 / 3; }
 @keyframes calc-rise { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+@keyframes calc-panel-in { from { opacity:0; transform:translateY(8px) scale(.99); } to { opacity:1; transform:translateY(0) scale(1); } }
 @media (min-width:600px) { .calculator-page { left:50%; width:430px; margin-left:-215px; box-shadow:0 0 40px rgba(35,30,23,.09); } }
 </style>

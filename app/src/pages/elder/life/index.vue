@@ -6,6 +6,8 @@ import { formatDateTitle, toDateKey } from '@/features/life/calendar';
 import { createDemoSchedule } from '@/features/life/repository';
 import type { ScheduleItem } from '@/features/life/types';
 
+type ToolId = 'flashlight' | 'calendar' | 'magnifier' | 'calculator';
+
 const now = ref(new Date());
 const schedules = ref<ScheduleItem[]>([]);
 const todayKey = computed(() => toDateKey(now.value));
@@ -16,7 +18,6 @@ const nextItem = computed(() => schedules.value
 
 const tools = [
   { id: 'flashlight', title: '手电筒', icon: 'flashlight', tone: 'gold' },
-  { id: 'calendar', title: '日历日程', icon: 'calendar', tone: 'gold' },
   { id: 'magnifier', title: '放大镜', icon: 'magnifier', tone: 'green' },
   { id: 'calculator', title: '大字计算器', icon: 'calculator', tone: 'green' },
 ] as const;
@@ -26,7 +27,7 @@ function refresh() {
   schedules.value = createDemoSchedule(now.value);
 }
 
-function openTool(id: typeof tools[number]['id']) {
+function openTool(id: ToolId) {
   if (id === 'flashlight') {
     uni.navigateTo({ url: '/pages/elder/life/flashlight' });
     return;
@@ -71,6 +72,7 @@ onShow(refresh);
       <view>
         <text class="date-title">{{ formatDateTitle(now) }}</text>
         <text class="date-summary">今天有 {{ todayItems.length }} 项安排</text>
+        <text class="date-link">查看日历</text>
       </view>
       <view class="date-icon"><SgIcon name="calendar" :size="30" /></view>
     </view>
@@ -81,7 +83,7 @@ onShow(refresh);
         v-for="tool in tools"
         :key="tool.id"
         class="tool-card"
-        :class="`tool-card--${tool.tone}`"
+        :class="[`tool-card--${tool.tone}`, `tool-card--${tool.id}`]"
         @click="openTool(tool.id)"
       >
         <view class="tool-icon"><SgIcon :name="tool.icon" :size="29" /></view>
@@ -119,22 +121,26 @@ onShow(refresh);
 .eyebrow { display: block; margin-bottom: 3px; color: var(--sg-gold-deep); font-size: 13px; font-weight: 650; letter-spacing: 1px; }
 .page-title { display: block; font-size: 28px; font-weight: 760; }
 .today-pill { display: flex; align-items: center; gap: 7px; padding: 9px 13px; border: 1px solid var(--sg-border); border-radius: 999px; color: var(--sg-gold-deep); background: linear-gradient(155deg,rgba(255,253,248,.94),rgba(242,233,218,.9)); box-shadow: 0 7px 18px rgba(69,52,31,.08),inset 0 1px var(--sg-highlight); font-size: 14px; font-weight: 700; }
-.date-card { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; min-height: 126px; margin-top: 18px; padding: 22px; overflow: hidden; border: 1px solid rgba(130,91,31,.16); border-radius: var(--sg-radius-hero); background: radial-gradient(circle at 84% 8%,rgba(255,255,255,.5),transparent 28%),linear-gradient(138deg,#faeac2 0%,#edca7e 58%,#dcb25e 100%); box-shadow: var(--sg-shadow),inset 0 1px var(--sg-highlight); transition: transform var(--sg-motion-fast) var(--sg-ease-standard),box-shadow var(--sg-motion-fast) ease; animation: life-rise var(--sg-motion-emphasized) 45ms var(--sg-ease-emphasized) both; }
+.date-card { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; min-height: 132px; margin-top: 18px; padding: 22px; overflow: hidden; border: 1px solid rgba(130,91,31,.16); border-radius: 28px 28px 28px 10px; background: radial-gradient(circle at 84% 8%,rgba(255,255,255,.5),transparent 28%),linear-gradient(138deg,#faeac2 0%,#edca7e 58%,#dcb25e 100%); box-shadow: var(--sg-shadow),inset 0 1px var(--sg-highlight); transition: transform var(--sg-motion-fast) var(--sg-ease-standard),box-shadow var(--sg-motion-fast) ease; animation: life-date-in var(--sg-motion-emphasized) 45ms var(--sg-ease-emphasized) both; }
 .date-card:active { transform: scale(.985); box-shadow: var(--sg-shadow-pressed); }
-.date-title,.date-summary { display: block; }
+.date-title,.date-summary,.date-link { display: block; }
 .date-title { font-size: 23px; font-weight: 760; }
-.date-summary { margin-top: 9px; color: #5d4b2f; font-size: 16px; }
+.date-summary { margin-top: 8px; color: #5d4b2f; font-size: 16px; }
+.date-link { width: max-content; margin-top: 12px; padding-bottom: 2px; border-bottom: 1px solid rgba(93,75,47,.42); color: #5d4b2f; font-size: 14px; font-weight: 700; }
 .date-icon { display: grid; place-items: center; width: 62px; height: 62px; border-radius: 20px; background: rgba(255,249,234,.58); box-shadow: inset 0 1px rgba(255,255,255,.62),0 8px 20px rgba(111,78,31,.12); }
 .section-title { position: relative; z-index: 1; display: block; margin: 24px 0 12px; font-size: 20px; font-weight: 750; animation: life-rise var(--sg-motion-emphasized) 90ms var(--sg-ease-emphasized) both; }
 .section-title--next { margin-top: 22px; }
-.tool-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 13px; animation: life-rise var(--sg-motion-emphasized) 120ms var(--sg-ease-emphasized) both; }
-.tool-card { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; min-height: 108px; margin: 0; padding: 15px; border: 1px solid var(--sg-border); border-radius: 20px; color: var(--sg-ink); background: linear-gradient(155deg,rgba(255,253,248,.97),rgba(244,234,216,.95)); box-shadow: var(--sg-shadow-soft),inset 0 1px var(--sg-highlight); text-align: left; transition: transform var(--sg-motion-fast) var(--sg-ease-standard),box-shadow var(--sg-motion-fast) ease,filter var(--sg-motion-fast) ease; }
+.tool-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 76px 96px; gap: 12px; }
+.tool-card { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; min-width: 0; min-height: 0; margin: 0; padding: 14px; border: 1px solid var(--sg-border); border-radius: 18px; color: var(--sg-ink); background: linear-gradient(155deg,rgba(255,253,248,.97),rgba(244,234,216,.95)); box-shadow: 0 8px 20px rgba(61,45,27,.08),inset 0 1px var(--sg-highlight); text-align: left; transition: transform var(--sg-motion-fast) var(--sg-ease-standard),box-shadow var(--sg-motion-fast) ease,filter var(--sg-motion-fast) ease; animation: life-tool-in var(--sg-motion-emphasized) var(--tool-delay, 120ms) var(--sg-ease-emphasized) both; }
 .tool-card::after { display: none; border: 0; }
 .tool-card:active { transform: scale(var(--sg-press-scale)); box-shadow: var(--sg-shadow-pressed); filter: brightness(.97); }
 .tool-card--gold { background: linear-gradient(150deg,#fff6dd,#f1d99f); }
 .tool-card--green { background: linear-gradient(150deg,#f7f6eb,#dce8d9); }
+.tool-card--flashlight { --tool-delay: 110ms; grid-column: 1 / 3; flex-direction: row; align-items: center; border-radius: 18px 24px 18px 18px; }
+.tool-card--magnifier { --tool-delay: 155ms; }
+.tool-card--calculator { --tool-delay: 200ms; }
 .tool-icon { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 14px; background: rgba(255,252,243,.7); box-shadow: inset 0 1px rgba(255,255,255,.64),0 4px 12px rgba(75,53,27,.07); }
-.tool-title { font-size: 18px; font-weight: 720; }
+.tool-title { font-size: 18px; font-weight: 720; line-height: 1.25; }
 .next-card { position: relative; z-index: 1; display: flex; align-items: center; min-height: 72px; padding: 12px 14px; border: 1px solid var(--sg-border); border-radius: 20px; background: linear-gradient(155deg,rgba(255,253,248,.97),rgba(244,234,216,.95)); box-shadow: var(--sg-shadow-soft),inset 0 1px var(--sg-highlight); transition: transform var(--sg-motion-fast) var(--sg-ease-standard),box-shadow var(--sg-motion-fast) ease; animation: life-rise var(--sg-motion-emphasized) 165ms var(--sg-ease-emphasized) both; }
 .next-card:active { transform: scale(.985); box-shadow: var(--sg-shadow-pressed); }
 .next-time { display: grid; place-items: center; width: 64px; height: 46px; border-radius: 14px; background: linear-gradient(145deg,#f9e7b9,#edcb7e); font-size: 17px; font-weight: 760; }
@@ -150,6 +156,8 @@ onShow(refresh);
 .nav-item--active { color: var(--sg-gold-deep); font-weight: 700; }
 .nav-item--active .nav-mark { background: linear-gradient(145deg,#f9e7b9,#edcb7e); box-shadow: inset 0 1px rgba(255,255,255,.55); transform: translateY(-1px); }
 @keyframes life-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes life-date-in { from { opacity: 0; transform: translateY(8px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes life-tool-in { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes life-nav { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 @media (min-width:600px) { .life-page { left:50%; width:430px; margin-left:-215px; box-shadow:0 0 40px rgba(35,30,23,.09); } }
 </style>

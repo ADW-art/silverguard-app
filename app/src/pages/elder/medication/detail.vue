@@ -126,7 +126,8 @@ onShow(refresh);
 .page-title { font-size: 22px; font-weight: 750; text-align: center; }
 .header-space { width: 48px; }
 
-.medicine-hero { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; min-height: 290px; margin-top: 18px; padding: 24px; overflow: hidden; border: 1px solid rgba(130,91,31,.16); border-radius: 26px; background: radial-gradient(circle at 84% 8%,rgba(255,255,255,.52),transparent 28%),linear-gradient(138deg,#faeac2 0%,#edca7e 58%,#dcb25e 100%); box-shadow: var(--sg-shadow), inset 0 1px var(--sg-highlight); animation: sg-detail-rise var(--sg-motion-emphasized) 45ms var(--sg-ease-emphasized) both; }
+.medicine-hero { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: flex-start; min-height: 290px; margin-top: 18px; padding: 24px 24px 24px 34px; overflow: hidden; border: 1px solid rgba(130,91,31,.16); border-radius: 30px 30px 30px 10px; background: radial-gradient(circle at 84% 8%,rgba(255,255,255,.52),transparent 28%),linear-gradient(138deg,#faeac2 0%,#edca7e 58%,#dcb25e 100%); box-shadow: var(--sg-shadow), inset 0 1px var(--sg-highlight); animation: sg-detail-stage-in var(--sg-motion-emphasized) 45ms var(--sg-ease-emphasized) both; }
+.medicine-hero::before { content: ''; position: absolute; top: 26px; bottom: 26px; left: 16px; width: 3px; border-radius: 3px; background: linear-gradient(rgba(156,105,25,.16), rgba(156,105,25,.72), rgba(156,105,25,.16)); }
 .medicine-hero::after { content: ''; position: absolute; width: 190px; height: 190px; right: -76px; bottom: -112px; border: 1px solid rgba(130,91,31,.16); border-radius: 50%; box-shadow: inset 0 0 0 18px rgba(255,255,255,.07); pointer-events: none; }
 .medicine-hero--complete { border-color: rgba(34,89,77,.15); background: radial-gradient(circle at 84% 8%,rgba(255,255,255,.52),transparent 28%),linear-gradient(138deg,#e9f3e9,#c8e3d4); }
 .medicine-mark { position: relative; z-index: 1; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 17px; color: var(--sg-gold-deep); background: rgba(255,249,234,.64); box-shadow: inset 0 1px rgba(255,255,255,.62), 0 8px 20px rgba(111,78,31,.12); }
@@ -152,6 +153,7 @@ onShow(refresh);
 .missing-action { width: 100%; margin-top: 20px; }
 
 @keyframes sg-detail-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes sg-detail-stage-in { from { opacity: 0; transform: translateX(-8px) scale(.99); } to { opacity: 1; transform: translateX(0) scale(1); } }
 
 @media (min-width: 600px) {
   .detail-page { left: 50%; width: 430px; margin-left: -215px; box-shadow: 0 0 40px rgba(35,30,23,.09); }

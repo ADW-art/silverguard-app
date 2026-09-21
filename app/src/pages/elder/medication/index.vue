@@ -81,7 +81,7 @@ onShow(refresh);
         class="schedule-row"
         @click="openDetail(plan)"
       >
-        <view class="schedule-time"><text>{{ plan.time }}</text></view>
+        <view class="schedule-time"><view class="schedule-point" /><text>{{ plan.time }}</text></view>
         <view class="schedule-copy">
           <text class="schedule-name">{{ plan.medicineName }}</text>
           <text class="schedule-dose">{{ plan.dose }}</text>
@@ -130,7 +130,7 @@ onShow(refresh);
 .page-title { font-size: 22px; font-weight: 750; text-align: center; }
 .header-space { width: 48px; }
 
-.summary-card { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; min-height: 156px; margin-top: 18px; padding: 22px; overflow: hidden; border: 1px solid rgba(130,91,31,.16); border-radius: 24px; background: radial-gradient(circle at 84% 8%, rgba(255,255,255,.52), transparent 28%), linear-gradient(138deg,#faeac2 0%,#edca7e 58%,#dcb25e 100%); box-shadow: var(--sg-shadow), inset 0 1px var(--sg-highlight); transform: translateZ(0); transition: transform var(--sg-motion-fast) var(--sg-ease-standard), box-shadow var(--sg-motion-fast) ease; animation: sg-med-rise var(--sg-motion-emphasized) 45ms var(--sg-ease-emphasized) both; }
+.summary-card { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; min-height: 156px; margin-top: 18px; padding: 22px; overflow: hidden; border: 1px solid rgba(130,91,31,.16); border-radius: 28px 28px 28px 10px; background: radial-gradient(circle at 84% 8%, rgba(255,255,255,.52), transparent 28%), linear-gradient(138deg,#faeac2 0%,#edca7e 58%,#dcb25e 100%); box-shadow: var(--sg-shadow), inset 0 1px var(--sg-highlight); transform: translateZ(0); transition: transform var(--sg-motion-fast) var(--sg-ease-standard), box-shadow var(--sg-motion-fast) ease; animation: sg-med-focus-in var(--sg-motion-emphasized) 45ms var(--sg-ease-emphasized) both; }
 .summary-card:active { transform: scale(.985); box-shadow: var(--sg-shadow-pressed); }
 .summary-card--complete { border-color: rgba(34,89,77,.15); background: radial-gradient(circle at 84% 8%, rgba(255,255,255,.52), transparent 28%), linear-gradient(138deg,#e9f3e9,#c8e3d4); }
 .summary-kicker, .summary-time, .summary-name { display: block; }
@@ -142,12 +142,14 @@ onShow(refresh);
 .summary-mark--safe { color: var(--sg-safe); }
 
 .section-title { position: relative; z-index: 1; display: block; margin: 28px 0 12px; font-size: 20px; font-weight: 750; animation: sg-med-rise var(--sg-motion-emphasized) 90ms var(--sg-ease-emphasized) both; }
-.schedule-card { position: relative; z-index: 1; padding: 2px 16px; border: 1px solid var(--sg-border); border-radius: 22px; background: linear-gradient(155deg, rgba(255,253,248,.97), rgba(244,234,216,.95)); box-shadow: var(--sg-shadow-soft), inset 0 1px var(--sg-highlight); animation: sg-med-rise var(--sg-motion-emphasized) 120ms var(--sg-ease-emphasized) both; }
-.schedule-row { display: flex; align-items: center; width: 100%; min-height: 76px; margin: 0; padding: 12px 0; border: 0; border-bottom: 1px solid rgba(110,102,90,.13); border-radius: 0; color: var(--sg-ink); background: transparent; text-align: left; transition: transform var(--sg-motion-fast) var(--sg-ease-standard), opacity var(--sg-motion-fast) ease; }
+.schedule-card { position: relative; z-index: 1; padding: 5px 16px 5px 12px; overflow: hidden; border: 1px solid var(--sg-border); border-radius: 22px 22px 22px 8px; background: linear-gradient(155deg, rgba(255,253,248,.97), rgba(244,234,216,.95)); box-shadow: 0 12px 28px rgba(61,45,27,.1), inset 0 1px var(--sg-highlight); animation: sg-ledger-in var(--sg-motion-emphasized) 120ms var(--sg-ease-emphasized) both; }
+.schedule-card::before { content: ''; position: absolute; top: 29px; bottom: 29px; left: 36px; width: 1px; background: linear-gradient(rgba(214,168,75,.2), rgba(214,168,75,.72), rgba(214,168,75,.2)); }
+.schedule-row { position: relative; display: grid; grid-template-columns: 64px 1fr auto; align-items: center; width: 100%; min-height: 72px; margin: 0; padding: 10px 0; border: 0; border-bottom: 1px solid rgba(110,102,90,.13); border-radius: 0; color: var(--sg-ink); background: transparent; text-align: left; line-height: 1.25; transition: transform var(--sg-motion-fast) var(--sg-ease-standard), opacity var(--sg-motion-fast) ease; }
 .schedule-row::after { display: none; border: 0; }
 .schedule-row:active { transform: scale(.985); opacity: .76; }
 .schedule-row:last-child { border-bottom: 0; }
-.schedule-time { display: grid; place-items: center; width: 60px; height: 46px; border-radius: 14px; background: var(--sg-gold-pale); font-size: 17px; font-weight: 750; }
+.schedule-time { position: relative; z-index: 1; display: flex; align-items: center; gap: 9px; color: var(--sg-gold-deep); font-size: 17px; font-weight: 760; }
+.schedule-point { flex: 0 0 auto; width: 11px; height: 11px; border: 3px solid rgba(255,253,248,.95); border-radius: 50%; background: var(--sg-gold); box-shadow: 0 0 0 1px rgba(156,105,25,.22); }
 .schedule-copy { flex: 1; min-width: 0; padding-left: 13px; }
 .schedule-name, .schedule-dose { display: block; }
 .schedule-name { font-size: 18px; font-weight: 700; }
@@ -172,6 +174,8 @@ onShow(refresh);
 .nav-item--active .nav-mark { background: linear-gradient(145deg,#f9e7b9,#edcb7e); box-shadow: inset 0 1px rgba(255,255,255,.55); transform: translateY(-1px); }
 
 @keyframes sg-med-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes sg-med-focus-in { from { opacity: 0; transform: translateY(8px) scale(.99); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes sg-ledger-in { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes sg-med-nav { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 
 @media (min-width: 600px) {
